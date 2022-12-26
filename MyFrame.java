@@ -1,12 +1,15 @@
-import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-public class MyFrame extends JFrame implements ActionListener{
-   
+import javax.sound.sampled.*;
+
+
+public class MyFrame extends JFrame  implements ActionListener{
+
     Mypanel panel = new Mypanel();
+    File file = new File("horimiya_op.wav");
 
     JButton pause_button = new JButton();
     JButton play_button = new JButton();
@@ -29,24 +32,47 @@ public class MyFrame extends JFrame implements ActionListener{
     Image new_img3 = img3.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
     ImageIcon resized_replay_icon = new ImageIcon(new_img3);
 
+    MusicStuffs music = new MusicStuffs();
 
+    //test
 
-    //Let's get the music :)
+    static AudioInputStream audio_stream;
+    static Clip clip;
 
-    File music = new File("Horimiya_OP.wav");
-    
+    public void playaudio(File audioFile){
+        try{
+            audio_stream = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(audio_stream);
+            clip.start();
+        }catch(Exception e){
 
-    Clip mysound;
-
-    
-    public void setmusic()throws UnsupportedAudioFileException, IOException,LineUnavailableException {
-
-        AudioInputStream audiostream = AudioSystem.getAudioInputStream(music);
-        Clip myclip = AudioSystem.getClip();
-        myclip.open(audiostream);
-        mysound = myclip;
+        }
     }
-    
+
+    public void pauseaudio(File audioFile){
+        try{
+            audio_stream = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(audio_stream);
+            clip.stop();
+        }catch(Exception e){
+
+        }
+    }
+
+    public void replayaudio(File audioFile){
+        try{
+            audio_stream = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(audio_stream);
+            clip.setMicrosecondPosition(0);
+        }catch(Exception e){
+
+        }
+    }
+
+    //test
 
     MyFrame(){
       
@@ -88,23 +114,19 @@ public class MyFrame extends JFrame implements ActionListener{
 
     }
     @Override
-    public void actionPerformed(ActionEvent e){
+    public  void actionPerformed(ActionEvent e) {
         if(e.getSource()==play_button){
-
-            try{
-                setmusic();
-            }
-            catch(Exception a){}
-            mysound.start();
+            playaudio(file);
+            System.out.println("Playing");
         }
         else if(e.getSource()==pause_button){
-
             System.out.println("Paused");
-
         }
         else if(e.getSource()==replay_button){
-
-            System.out.println("replayed");
+            System.out.println("re-Playing");
         }
+        
     }
+    
+    
 }

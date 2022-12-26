@@ -6,8 +6,9 @@ import java.awt.*;
 import java.io.*;
 
 public class HoriMiya{
-
-    public static void main(String[] args)throws FileNotFoundException,FontFormatException,IOException{
+    
+    
+    public static void main(String[] args)throws Exception{
         
         MyFrame frame = new MyFrame(); //created an instance of my frame
 
@@ -49,8 +50,6 @@ public class HoriMiya{
         InputStream custom_font = new FileInputStream("NeonLights-22d.ttf");
         Font NeonLight = Font.createFont(Font.TRUETYPE_FONT, custom_font).deriveFont(25f);
         main_label.setFont(NeonLight);
-        main_label.setForeground(new Color(0xC7C7C7)); 
-
-        
+        main_label.setForeground(new Color(0xC7C7C7));
     }
 }
