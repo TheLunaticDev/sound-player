@@ -7,7 +7,7 @@ import javax.sound.sampled.*;
 
 
 public class MyFrame extends JFrame  implements ActionListener{
-
+    public boolean isPlaying = false;
     Mypanel panel = new Mypanel();
     File file = new File("horimiya_op.wav");
 
@@ -41,31 +41,45 @@ public class MyFrame extends JFrame  implements ActionListener{
 
     public void playaudio(File audioFile){
         try{
-            audio_stream = AudioSystem.getAudioInputStream(audioFile);
-            clip = AudioSystem.getClip();
-            clip.open(audio_stream);
+	    isPlaying = true;
+	    try{		
+		audio_stream = AudioSystem.getAudioInputStream(audioFile);
+	    }catch(Exception e){
+		System.out.println("Cannot get Audio Input Stream");
+	    }
+	    try{
+		clip = AudioSystem.getClip();
+	    }catch(Exception e){
+		System.out.println("Cannot get Audio Clip");
+	    }
+	    try
+		{
+		    clip.open(audio_stream);
+		}catch(Exception e){
+		System.out.println("Cannot get the clip to be opened");
+	    }
+	    try{
+		
             clip.start();
+	    }catch(Exception e){
+		System.out.println("Cannot start the Clip");
+	    }
         }catch(Exception e){
-
+	    System.out.println("Fuck you!");
         }
     }
 
-    public void pauseaudio(File audioFile){
+    public void pauseaudio(){
         try{
-            audio_stream = AudioSystem.getAudioInputStream(audioFile);
-            clip = AudioSystem.getClip();
-            clip.open(audio_stream);
+	    isPlaying = false;
             clip.stop();
         }catch(Exception e){
 
         }
     }
 
-    public void replayaudio(File audioFile){
+    public void replayaudio(){
         try{
-            audio_stream = AudioSystem.getAudioInputStream(audioFile);
-            clip = AudioSystem.getClip();
-            clip.open(audio_stream);
             clip.setMicrosecondPosition(0);
         }catch(Exception e){
 
@@ -116,13 +130,17 @@ public class MyFrame extends JFrame  implements ActionListener{
     @Override
     public  void actionPerformed(ActionEvent e) {
         if(e.getSource()==play_button){
+	    if (isPlaying == false){
             playaudio(file);
+	    }
             System.out.println("Playing");
         }
         else if(e.getSource()==pause_button){
+	    pauseaudio();
             System.out.println("Paused");
         }
         else if(e.getSource()==replay_button){
+	    replayaudio();
             System.out.println("re-Playing");
         }
         

@@ -11,7 +11,7 @@ public class MusicStuffs{
 
     public void playaudio(File audioFile){
         try{
-            audio_stream = AudioSystem.getAudioInputStream(audioFile);
+	    audio_stream = AudioSystem.getAudioInputStream(audioFile);
             clip = AudioSystem.getClip();
             clip.open(audio_stream);
         }catch(Exception e){
